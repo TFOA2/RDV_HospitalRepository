@@ -1,0 +1,15 @@
+{
+  "name": "projetlocalhost",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "npx @tailwindcss/cli -i ./RDV_Hospital/rdvhospitalapp/static/css/input.css -o ./RDV_Hospital/rdvhospitalapp/static/css/output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

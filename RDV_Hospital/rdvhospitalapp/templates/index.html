@@ -1,14 +1,114 @@
+{% extends "layout.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
-</head>
-<body>
-    <h1>Page d'accueil pour les visiteurs</h1>
+
+{% block content %}
+
+    <div class=" overflow-y-auto">
+
+        <!-- Hero Section -->
+    <section class="text-center py-10 bg-blue-500 text-white">
+        <h2 class="text-4xl font-bold">Prenez rendez-vous médical en toute simplicité !</h2>
+        <p class="mt-4">Consultez la disponibilité des médecins et prenez un rendez-vous en quelques clics.</p>
+        <button class="mt-6 bg-white text-blue-600 px-6 py-3 rounded font-bold">Prendre un rendez-vous</button>
+    </section>
+
     
+    <!-- Fonctionnalités -->
+    <section class="bg-gray-100 py-10">
+        <h3 class="text-3xl font-bold text-center mb-8">Nos Fonctionnalités</h3>
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                
+                <!-- Carte Gastrology -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="{% static 'images/calendar.png' %}" alt="Gastrology" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Prise de rendez-vous</h3>
+                    <p>Planifiez facilement vos consultations en ligne.</p>
+                </div>
+    
+                <!-- Carte Pulmonology -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="{% static 'images/gps.png' %}" alt="Pulmonology" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Géolocalisation</h3>
+                    <p>Trouvez un médecin proche de chez vous.</p>
+                </div>
+    
+                <!-- Carte Dental Care -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="{% static 'images/siren.png' %}" alt="Dental Care" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Gestion des urgences</h3>
+                    <p>Accédez rapidement aux services d'urgence.</p>
+                </div>
+    
+                <!-- Carte Blood Test -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h1-sv-icon-9.png" alt="Blood Test" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Blood Test</h3>
+                </div>
+    
+                <!-- Carte Surgery -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h1-sv-icon-10.png" alt="Surgery" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Surgery</h3>
+                </div>
+
+                 <!-- Carte Surgery -->
+                 <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h1-sv-icon-10.png" alt="Surgery" class="mx-auto w-16 h-16">
+                    <h3 class="mt-3 text-lg font-bold">Surgery</h3>
+                </div>
+    
+            </div>
+        </div>
+    </section>
+    
+
+
+
+
+    <!-- Médecins disponibles -->
+    <section class="bg-gray-100 py-10">
+        <h3 class="text-3xl font-bold text-center mb-8">Nos Médecins</h3>
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                
+                <!-- Expert Doctors -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h2-wwd-img-1.png" alt="Image Doctor" class="mx-auto w-64 h-64 rounded-lg">
+                    <h4 class="mt-6 text-lg font-bold text-blue-600">Dr. Sophie Dupont</h4>
+                    <p class="text-gray-600">Explicari sadipscing cum ex</p>
+                </div>
+                
+                <!-- Child Care -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h2-wwd-img-2.jpg" alt="Image Doctor" class="mx-auto w-64 h-64 rounded-lg">
+                    <h4 class="mt-6 text-lg font-bold text-blue-600">Dr. Marc Lemaitre</h4>
+                    <p class="text-gray-600">Cu mea aeque tamquam</p>
+                </div>
+                
+                <!-- Daily Checkup -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h2-wwd-img-3.png" alt="Image Doctor" class="mx-auto w-64 h-64 rounded-lg">
+                    <h4 class="mt-6 text-lg font-bold text-blue-600">Dr. Clara Fontaine</h4>
+                    <p class="text-gray-600">Has praesent disputando ut</p>
+                </div>
+                
+                <!-- Medicine Availability -->
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:bg-blue-50 transition">
+                    <img src="https://ithemeslab.com/tempkits/medikit/wp-content/uploads/2020/03/h2-wwd-img-4.png" alt="Image Doctor" class="mx-auto w-64 h-64 rounded-lg">
+                    <h4 class="mt-6 text-lg font-bold text-blue-600">Dr. Clorine Charbon</h4>
+                    <p class="text-gray-600">Has praesent disputando ut</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    </div>
+
+    
+
+{% endblock  %}
+   
 </body>
 </html>

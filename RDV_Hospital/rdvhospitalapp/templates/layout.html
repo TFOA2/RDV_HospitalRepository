@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <div class="flex">
+        <div id="sidebar" class="bg-blue-500 h-screen p-4 pt-8 w-1/6 fixed z-10 ">
+            <img src="{% static 'images/icons8-gauche-50.png' %}" alt="" id="pointer" class="bg-white w-8 h-8 rounded-full absolute -right-3 top-9 border border-blue-500 cursor-pointer">
+            <!-- <p id="sidebarText">RDV Hospital</p> -->
+            <div class="flex items-center mb-5">
+                <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-6 h-6 mr-2">
+                <h1 class="text-white text-xl font-bold sidebarText" id="sidebarText">RDV Hospital</h1>
+            </div>
+            
+
+            <!-- Navigation -->
+            <nav class="flex-grow">
+                <ul class="space-y-6">
+                    <li>
+                        <a href="/dashboard" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/consultation" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-calendrier-50.png' %}" alt="" class="w-7 h-7 mr-2">
+                            <span class="sidebarText">Rendez-vous</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+
+            <!-- <a href="/connexion" class="bg-white text-blue-600 px-4 py-2 rounded text-center mt-auto absolute bottom-0">Se connecter</a> -->
+        </div>
+
+        <div class="flex flex-col flex-grow">
+            <!-- Barre horizontale après la sidebar -->
+            <div id="topBar" class="fixed top-0 left-1/6 bg-blue-500 text-white p-4 w-5/6 h-16 flex justify-between items-center">
+                <h2 class="text-lg font-bold">Tableau de bord</h2>
+                <div class="flex gap-5">
+                    <a href="/connexion" class="bg-white text-blue-600 px-4 py-2 rounded">Se connecter</a>
+                    <a href="/profil"> 
+                        <div class="border border-blue-500 rounded-full w-10 h-10 bg-cover" style="background-image: url('{% static 'images/add_2444606.png' %}');">
+                        </div> 
+                    </a>
+                </div>
+                
+            </div>
+    
+            <!-- Contenu principal -->
+            <div id="contentScroll" class="mt-16 p-4 ml-55 h-screen overflow-y-auto">
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <!-- <main>
+        
+    </main> -->
+
+    
+    
+    
+    <!-- Footer -->
+    <footer id="footer" class=" bg-gray-900 py-6 ml-59">
+        <!-- Contact -->
+        <section class="text-gray-200 py-10 px-4">
+            <h3 class="text-3xl font-bold">Besoin d'aide ?</h3>
+            <p>Contactez-nous au <span class="font-bold">+237 6XX XXX XXX</span> ou via notre formulaire.</p>
+        </section>
+
+        <div class="container mx-auto px-4">
+            <!-- Liens du footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center border-b pb-4">
+                <ul class="flex flex-wrap justify-center md:justify-start space-x-4 text-white text-sm">
+                    <li><a href="#" class="hover:text-blue-600">Privacy Practices</a></li>
+                    <li><a href="#" class="hover:text-blue-600">Disclaimer</a></li>
+                    <li><a href="#" class="hover:text-blue-600">Accessibility</a></li>
+                    <li><a href="#" class="hover:text-blue-600">Terms of Use</a></li>
+                    <li><a href="#" class="hover:text-blue-600">Sitemap</a></li>
+                </ul>
+                
+                <!-- Réseaux sociaux -->
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-700 hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+    
+            <!-- Copyright et Stores -->
+            <div class="flex flex-col md:flex-row justify-between items-center mt-4 text-white text-sm">
+                <p>&copy; 2025 RDV Hospital. Tous droits réservés.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <img src="https://novant.1onestrong.com/wp-content/uploads/2023/10/appstore.png" 
+                         alt="App Store" 
+                         class="w-32">
+                    <img src="https://novant.1onestrong.com/wp-content/uploads/2023/10/googleplay.png" 
+                         alt="Google Play" 
+                         class="w-32">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+            document.getElementById("pointer").addEventListener("click", function () {
+                let sidebar = document.getElementById("sidebar");
+                let sidebarText = document.querySelectorAll(".sidebarText");
+                let pointer = document.getElementById("pointer");
+                let topbar = document.getElementById("topBar");
+                let contentScroll =document.getElementById("contentScroll")
+                let footer =document.getElementById("footer")
+        
+                // Vérifier si la sidebar est déjà réduite
+                if (sidebar.classList.contains("w-1/6")) {
+                    sidebar.classList.remove("w-1/6");
+                    sidebar.classList.add("w-1/17");
+                    topbar.classList.remove("left-1/6");
+                    topbar.classList.add("left-1/17");
+                    topbar.classList.remove("w-5/6");
+                    topbar.classList.add("w-16/17");
+                    contentScroll.classList.replace('ml-55','ml-18')
+                    footer.classList.replace('ml-59','ml-22')
+                    sidebarText.forEach(text => {
+                        text.style.display = 'none';
+                    });
+                    pointer.src = "{% static 'images/icons8-droite-50.png' %}";
+                } else {
+                    sidebar.classList.remove("w-1/17");
+                    sidebar.classList.add("w-1/6");
+                    topbar.classList.remove("left-1/17");
+                    topbar.classList.add("left-1/6");
+                    topbar.classList.remove("w-16/17");
+                    topbar.classList.add("w-5/6");
+                    contentScroll.classList.replace('ml-18','ml-55')
+                    footer.classList.replace('ml-22','ml-59')
+
+                    sidebarText.forEach(text => {
+                        text.style.display = 'block';
+                    });
+                    pointer.src = "{% static 'images/icons8-gauche-50.png' %}";
+                }
+            });
+    </script>
+
+</body>
+</html>

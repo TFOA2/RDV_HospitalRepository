@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <section class="py-10 px-6 bg-blue-500 text-white"> 
+        <h2 class="ps-5 border-l-4 border-white text-lg font-semibold"> Urgence</h2>
+
+        <p class="mt-4 text-3xl font-bold">Si vous ou un proche êtes en situation d’urgence, contactez immédiatement notre service d'urgence .</p>
+        <a href="/prendre_rendez-vous"><button class="mt-6 bg-white text-blue-600 px-6 py-3 rounded font-bold hover:bg-gray-200 transition">Prendre un rendez-vous</button></a>
+
+    </section>
+
+    <div class="border border-gray-200 p-3 m-5 bg-white rounded-lg">
+        <div class="flex gap-5">
+            <div class="border border-blue-500 rounded-full bg-cover w-20 h-20" style="background-image: url('{% static 'images/add_2444606.png' %}');">
+                <!-- <img src="{% static 'images/con' %}" alt=""> -->
+            </div>
+            <div>
+                <h1 class=" text-2xl font-bold mb-2">Nom: <span class="text-blue-500 "> TCHINDA Arnold </span> </h1>
+                <h1 class=" text-lg ">Email: <span class="text-blue-500 "> arnold@gmail.com </span> </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="border border-gray-200 p-3 m-5 bg-white rounded-lg">
+        <form action="">
+            <div class="grid grid-cols-2 gap-10">
+                <div >
+                    <label for="" class="text-gray-700 font-medium"> Nom </label> <br>
+                    <input type="text" value="Tchinda Arnold" id="name" name="name" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div >
+                    <label for="" class="text-gray-700 font-medium"> Email </label> <br>
+                    <input type="email" id="email" name="email"value="arnold@gmail.com" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div >
+                    <label for="" class="text-gray-700 font-medium"> Numero </label> <br>
+                    <input type="number" id="phone" name="phone" value="649032987" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div >
+                    <label for="" class="text-gray-700 font-medium"> Mot de passe </label> <br>
+                    <input type="password" value="arnold" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <button type="submit" class="w-1/3 bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 transition">Save</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock content %}

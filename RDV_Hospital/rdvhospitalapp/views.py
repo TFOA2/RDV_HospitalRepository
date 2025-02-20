@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.template import loader
+from django.core.validators import validate_email
 
 
 def indexAccueil(request):
@@ -27,12 +28,56 @@ def connexion(request):
     
     return render(request, "connexion.html")
 
-def inscription(request,type):
+def inscription(request,user):
+    
+    error = False
+    message = ""
+    if request.method == "POST":
+        name = request.POST.get('name',None)
+        email = request.POST.get('email',None)
+        specialite = request.POST.get('specialite',None)
+        password = request.POST.get('password',None)
+        repassword = request.POST.get('repassword',None)
+        
+        if validate_email(email)==False or password != repassword:
+            error = True
+            message = "Erreur d'authentification verifier vos informations"
+            
+        print(f"=="*4,"New User",name,email,specialite,password,repassword,"=="*4)
+        context = {
+            'error':error,
+            'message':message,
+            'user':user if specialite else None
+        }
+        return render(request,'inscription.html',context)
+    
+        
     context = {
-        'type':type
+        'user':user
     }
     
     return render(request, "inscription.html",context)
+
+# def register(request):
+#     error = False
+#     message = ""
+#     if request.method == "POST":
+#         name = request.POST.get('name',None)
+#         email = request.POST.get('email',None)
+#         specialite = request.POST.get('specialite',None)
+#         password = request.POST.get('password',None)
+#         repassword = request.POST.get('repassword',None)
+        
+#         if validate_email(email)==False or password != repassword:
+#             error = True
+#             message = "Erreur d'authentification verifier vos informations"
+            
+#         print(f"=="*4,"New User",name,email,specialite,password,repassword,"=="*4)
+#         context = {
+#             'error':error,
+#             'message':message,
+#         }
+#         return render(request,'inscription.html',context)
     
 def ajoutPrendreRendezVous(request):
     

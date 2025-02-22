@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,25 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
 </head>
 <body>
+
     <h1>Dashboard professionnel sante</h1>
+
+    <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
+        <h2 class="text-xl font-bold text-gray-700 text-center mb-4">Calendrier sur 7 jours</h2>
+
+        <div class="grid grid-cols-8 border border-gray-300 rounded-lg overflow-hidden text-sm">
+            <!-- Entête des jours -->
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Heures</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Lun</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Mar</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Mer</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Jeu</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Ven</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Sam</div>
+            <div class="bg-gray-200 p-2 text-center font-bold border border-gray-300">Dim</div>
+
+           
+        </div>
+    </div>
 </body>
 </html>

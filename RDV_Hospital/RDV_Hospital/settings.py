@@ -81,7 +81,7 @@ DATABASES = {
     }
 }
 
-# AUTH_USER_MODEL = 'rdvhospitalapp.CustomUser'  
+AUTH_USER_MODEL = 'rdvhospitalapp.CustomUser'  
 
 
 # Password validation

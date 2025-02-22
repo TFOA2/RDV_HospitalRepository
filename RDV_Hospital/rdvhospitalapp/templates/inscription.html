@@ -18,7 +18,7 @@
             <p class="text-gray-600 mb-6">Inscrivez-vous pour accéder à nos services.</p>
 
             <!-- Formulaire -->
-            <form method="POST" action="{% url 'inscription' user='specialiste' %}" class="space-y-3">
+            <form method="POST" action="{% url 'inscription' user=user %}" class="space-y-3">
                 {% csrf_token %}
                 
                 {% if error %}
@@ -26,49 +26,60 @@
                         {{message}}
                     </div>
                 {% endif %}
-                <div>
-                    <label for="name" class="text-gray-700 font-medium">Nom</label>
-                    <input type="text" id="name" name="name" placeholder="Votre nom" 
-                        class="w-full mt-1 px-4 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="text-gray-700 font-medium">Nom</label>
+                        <input type="text" id="name" name="name" placeholder="Votre nom" 
+                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="email" class="text-gray-700 font-medium">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Votre adresse mail" 
+                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="email" class="text-gray-700 font-medium">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Votre adresse mail" 
-                        class="w-full mt-1 px-4 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                <div class="{% if user == 'specialiste' %}grid grid-cols-2 gap-4{% endif %} ">
+                    <div>
+                        <label for="phone" class="text-gray-700 font-medium">Téléphone</label>
+                        <input type="number" id="phone" name="phone" placeholder="Votre numéro" 
+                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
+
+                    {% if user == 'specialiste' %}
+                    <div>
+                        <label for="specialite" class="text-gray-700 font-medium">Spécialité</label>
+                        <select name="specialite" id="specialite" class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="">Sélectionnez une spécialité</option>
+                            {% for specialite in specialites %}
+                                <option value="{{specialite.id}}">{{specialite.titre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
                 </div>
 
-                {% if user == 'specialiste' %}
-                <div>
-                    <label for="specialite" class="text-gray-700 font-medium">Spécialité</label>
-                    <select name="specialite" id="specialite" class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        <option value="">Sélectionnez une spécialité</option>
-                        <option value="1">Neurologue</option>
-                        <option value="2">Ophtalmologue</option>
-                        <option value="3">Gynécologue</option>
-                        <option value="4">Pédiatre</option>
-                    </select>
-                </div>
-                {% endif %}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="password" class="text-gray-700 font-medium">Mot de passe</label>
+                        <input type="password" id="password" name="password" placeholder="Votre mot de passe"
+                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
 
-                <div>
-                    <label for="password" class="text-gray-700 font-medium">Mot de passe</label>
-                    <input type="password" id="password" name="password" placeholder="Votre mot de passe"
-                        class="w-full mt-1 px-4 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    <div>
+                        <label for="confirm_password" class="text-gray-700 font-medium">Confirmer</label>
+                        <input type="password" id="confirm_password" name="repassword" placeholder="Confirmez le mot de passe"
+                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="confirm_password" class="text-gray-700 font-medium">Confirmer le mot de passe</label>
-                    <input type="password" id="confirm_password" name="repassword" placeholder="Confirmez votre mot de passe"
-                        class="w-full mt-1 px-4 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-                </div>
-
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-1 rounded-lg hover:bg-blue-700 transition">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 transition">
                     S'inscrire
                 </button>
                 
                 <p class="text-sm text-gray-600 text-center">Vous avez déjà un compte ? 
-                    <a href="/connexion" class="text-blue-600 font-semibold hover:underline">Connectez-vous</a>
+                    <a href="{% url "connexion" %}" class="text-blue-600 font-semibold hover:underline">Connectez-vous</a>
                 </p>
             </form>
 
@@ -78,7 +89,7 @@
                 <div class="flex-grow border-t border-gray-300"></div>
             </div>
 
-            <button class="w-full border border-gray-300 flex items-center justify-center gap-2 py-1 rounded-lg hover:bg-gray-100 transition">
+            <button class="w-full border border-gray-300 flex items-center justify-center gap-2 py-2 rounded-lg hover:bg-gray-100 transition">
                 <img src="{% static 'images/google-icon.png' %}" class="w-5" alt="Google">
                 <span>Continuer avec Google</span>
             </button>

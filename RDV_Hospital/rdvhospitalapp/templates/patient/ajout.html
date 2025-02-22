@@ -40,7 +40,10 @@
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Specialiste</label>
                     <select name="specialiste" id="" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value=""></option>
+                        <option value="">Choisir un specialiste</option>
+                        {% for specialiste in specialistes %}
+                        <option value="{{specialiste.specialiste_id}}"> {{specialiste.specialiste.name}}: {{specialiste.spacialite.titre}} </option>
+                        {% endfor %}
                     </select>
                 </div>
         

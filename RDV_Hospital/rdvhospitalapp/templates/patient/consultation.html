@@ -7,7 +7,6 @@
         <h2 class="ps-5 border-l-4 border-white text-lg font-semibold"> Historique des Consultations </h2>
 
         <p class="mt-4 text-3xl font-bold">Retrouvez toutes vos consultations passées .</p>
-        <a href="/prendre_rendez-vous"><button class="mt-6 bg-white text-blue-600 px-6 py-3 rounded font-bold hover:bg-gray-200 transition">Prendre un rendez-vous</button></a>
     </section>
 
 
@@ -21,33 +20,26 @@
                 <thead class="bg-blue-500 text-white text-start">
                     <tr class="">
                         <th class="py-3 px-6 border-b">#</th>
+                        <th class="py-3 px-6 border-b">Médecin</th>
                         <th class="py-3 px-6 border-b">Date</th>
                         <th class="py-3 px-6 border-b">Heure</th>
-                        <th class="py-3 px-6 border-b">Médecin</th>
                         <th class="py-3 px-6 border-b">Type</th>
                         <th class="py-3 px-6 border-b">Diagnostic</th>
                         <th class="py-3 px-6 border-b">Ordonnance</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
-                    <tr class="border-b hover:bg-gray-200 text-center">
+                    {% for consultation in consultations %}
+                    <tr class="border-b hover:bg-gray-200 text-center cursor-pointer" onclick="window.location.href='{% url 'detail_consultation' consultation.id %}'">
                         <td class="py-3 px-6 "> <img src="{% static 'images/consultationIcon.png' %}" alt="" class="w-10 h-10"> </td>
-                        <td class="py-3 px-6 ">2025-02-09</td>
-                        <td class="py-3 px-6 ">10:30</td>
-                        <td class="py-3 px-6 ">Dr. Martin</td>
-                        <td class="py-3 px-6 ">Sur site</td>
-                        <td class="py-3 px-6 ">Grippe légère</td>
-                        <td class="py-3 px-6 ">Paracétamol</td>
+                        <td class="py-3 px-6 ">{{consultation.rendezVous.specialiste.name}}</td>
+                        <td class="py-3 px-6 ">{{consultation.rendezVous.date}}</td>
+                        <td class="py-3 px-6 ">{{consultation.rendezVous.heureDebut}} - {{consultation.rendezVous.heureFin}}</td>
+                        <td class="py-3 px-6 ">{% if consultation.rendezVous.type == 1 %} Sur site {% else %} Teleconsultation {% endif %}</td>
+                        <td class="py-3 px-6 ">{{consultation.diagnostique}} </td>
+                        <td class="py-3 px-6 ">{{consultation.ordonance}} </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-200 text-center">
-                        <td class="py-3 px-6"> <img class="w-10 h-10" src="{% static 'images/consultationIcon.png' %}" alt=""> </td>
-                        <td class="py-3 px-6">2025-02-08</td>
-                        <td class="py-3 px-6">14:00</td>
-                        <td class="py-3 px-6">Dr. Einstein</td>
-                        <td class="py-3 px-6">Téléconsultation</td>
-                        <td class="py-3 px-6">Fatigue générale</td>
-                        <td class="py-3 px-6">Vitamines</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

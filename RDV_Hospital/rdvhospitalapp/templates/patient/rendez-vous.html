@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<section class="py-10 px-6 bg-blue-500 text-white"> 
+    <h2 class="ps-5 border-l-4 border-white text-lg font-semibold"> Prendre Rendez-vous </h2>
+
+    <p class="mt-4 text-3xl font-bold">Consultez la disponibilité des médecins et prenez un rendez-vous en quelques clics.</p>
+    <a href="/prendre_rendez-vous"><button class="mt-6 bg-white text-blue-600 px-6 py-3 rounded font-bold hover:bg-gray-200 transition">Prendre un rendez-vous</button></a>
+
+</section>
+
+<div class="container mx-auto p-4">
+    <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Liste des Rendez-vous</h2>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white shadow-md rounded-lg">
+            <thead class="bg-blue-500 text-white">
+                <tr>
+                    {% comment %} <th class="p-4 text-left">Patient</th> {% endcomment %}
+                    <th class="p-4 text-left">Spécialiste</th>
+                    <th class="p-4 text-left">Date</th>
+                    <th class="p-4 text-left">Heure</th>
+                    <th class="p-4 text-left">Motif</th>
+                    <th class="p-4 text-left">Statut</th>
+                    <th class="p-4 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rdv in rendezVous %}
+                <tr class="border-b hover:bg-gray-100 transition">
+                    {% comment %} <td class="p-4">{{ rdv.patient.name }}</td> {% endcomment %}
+                    <td class="p-4">Dr. {{ rdv.specialiste.name }}</td>
+                    <td class="p-4">{{ rdv.date }}</td>
+                    <td class="p-4">{{ rdv.heureDebut }} - {{rdv.heureFin}}</td>
+                    <td class="p-4">{{ rdv.motif|truncatewords:5 }}</td>
+                    <td class="p-4">
+                        {% if rdv.status == 0 %}
+                            <span class="px-2 py-1 bg-yellow-200 text-yellow-700 rounded-full text-sm">En attente</span>
+                        {% elif rdv.status == 1 %}
+                            <span class="px-2 py-1 bg-green-200 text-green-700 rounded-full text-sm">Terminé</span>
+                        {% else %}
+                            <span class="px-2 py-1 bg-red-200 text-red-700 rounded-full text-sm">Annulé</span>
+                        {% endif %}
+                    </td>
+                    <td class="p-4 text-center">
+                        <a href="{% url "detail_rendezvous" rdv.id %}"><button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm cursor-pointer">Voir</button></a>
+                       <a href="#"> <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm ml-2 cursor-pointer">Annuler</button> </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="p-4 text-center text-gray-500">Aucun rendez-vous trouvé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
+

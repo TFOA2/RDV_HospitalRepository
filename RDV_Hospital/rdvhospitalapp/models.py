@@ -55,18 +55,15 @@ class Specialite(models.Model):
     titre = models.CharField(max_length=50)
     
 class Specialite_User(models.Model):
-    spacialite = models.ForeignKey(Specialite, on_delete=models.CASCADE)
+    specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE)
     specialiste = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
 class Planning(models.Model):
     specialiste = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    disponibilite = models.DateTimeField()
-    
-class Consultation(models.Model):
-    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='consultation_patient')
-    specialiste = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='consultation_specialiste')
-    diagnostique = models.CharField(max_length=250)
-    ordonance = models.CharField(max_length=50)
+    date = models.DateField( auto_now=False, auto_now_add=False)
+    heure_debut = models.TimeField( auto_now=False, auto_now_add=False)
+    heure_fin = models.TimeField( auto_now=False, auto_now_add=False)
+    status = models.IntegerField(default=0)
     
 class Paiement(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -84,7 +81,13 @@ class RendezVous(models.Model):
     specialiste = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='rendezvous_specialiste')
     motif = models.CharField(max_length=150)
     date = models.DateField()
-    heure = models.TimeField()
+    heureDebut = models.TimeField()
+    heureFin = models.TimeField()
     type = models.BooleanField()
-    status = models.BooleanField()
+    status = models.IntegerField(default=0)
+    
+class Consultation(models.Model):
+    rendezVous = models.ForeignKey(RendezVous, on_delete=models.CASCADE)
+    diagnostique = models.CharField(max_length=250)
+    ordonance = models.CharField(max_length=50)
     

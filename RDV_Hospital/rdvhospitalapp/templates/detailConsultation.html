@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 mb-5">
+        <h1 class="text-2xl font-bold text-gray-700 mb-4"> Détails de la Consultation </h1>
+    </div>
+
+    <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
+        <!-- <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Détails de la Consultation</h2> -->
+    
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Infos du patient -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Patient</h3>
+                <p class="text-gray-600">{{ consultation.rendezVous.patient.name }}</p>
+                <p class="text-gray-600">Email: {{ consultation.rendezVous.patient.email }}</p>
+                <p class="text-gray-600">Téléphone: {{ consultation.rendezVous.patient.phone }}</p>
+            </div>
+    
+            <!-- Infos du spécialiste -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Spécialiste</h3>
+                <p class="text-gray-600">Dr. {{ consultation.rendezVous.specialiste.name }}</p>
+                <p class="text-gray-600">Spécialité: {{ specialite_title }}</p>
+            </div>
+    
+            <!-- Détails du rendez-vous -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Date & Heure</h3>
+                <p class="text-gray-600">{{ consultation.rendezVous.date }} de {{ consultation.rendezVous.heureDebut }} à {{ consultation.rendezVous.heureFin }}</p>
+            </div>
+    
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Type</h3>
+                <p class="text-gray-600">
+                    {% if consultation.rendezVous.type == 0 %}
+                        Téléconsultation
+                    {% else %}
+                        Sur site
+                    {% endif %}
+                </p>
+            </div>
+    
+            <!-- Diagnostic -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700">Diagnostic</h3>
+                <p class="text-gray-600">{{ consultation.diagnostique }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam sed illum autem ipsam nesciunt, dolor, minus illo a dolore, atque impedit laudantium! Repudiandae voluptate eius provident optio dignissimos placeat enim.</p>
+            </div>
+    
+            <!-- Ordonnance -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-700">Ordonnance</h3>
+                <p class="text-gray-600">{{ consultation.ordonance }}</p>
+            </div>
+        </div>
+    
+        <!-- Bouton retour -->
+        <div class="text-center mt-6">
+            {% if user.role.titre == 'specialiste' %}
+            <a href="{% url 'consultationspecialaite' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Retour
+            </a>
+            {% else %}
+            <a href="{% url 'consultaion' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Retour
+            </a>
+            {% endif %}
+            
+        </div>
+    </div>
+    
+{% endblock content %}

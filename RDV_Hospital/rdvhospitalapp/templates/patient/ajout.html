@@ -17,75 +17,55 @@
         <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
             <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Prise de Rendez-vous</h2>
         
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Nom -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">Nom</label>
-                    <input type="text" placeholder="Votre nom" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-        
-                <!-- Email -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">Email</label>
-                    <input type="email" placeholder="Votre email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-        
-                <!-- Téléphone -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">Téléphone</label>
-                    <input type="tel" placeholder="Votre numéro" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+            <form class="flex flex-col" action="{% url "store" %}" method="post">
+                {% csrf_token %}
 
                 <!-- Specialiste -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Specialiste</label>
-                    <select name="specialiste" id="" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select name="specialiste" id="specialiste-select" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Choisir un specialiste</option>
                         {% for specialiste in specialistes %}
-                        <option value="{{specialiste.specialiste_id}}"> {{specialiste.specialiste.name}}: {{specialiste.spacialite.titre}} </option>
+                        <option value="{{specialiste.specialiste_id}}"> Dr. {{specialiste.specialiste.name}}: {{specialiste.specialite.titre}} </option>
                         {% endfor %}
                     </select>
                 </div>
         
-                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Date du rendez-vous</label>
+                        <select id="date-select" name="date" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Sélectionner une date</option>
+                        </select>
+                    </div>
+    
+                    <!-- Sélection de l'Heure -->
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Heure</label>
+                        <select id="heure-select" name="heure" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Sélectionner une heure</option>
+                        </select>
+                    </div>
+                </div>
                 <!-- Sélection de la Date -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">Date du rendez-vous</label>
-                    <select class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Sélectionner une date</option>
-                        <option value="">11/02/2025</option>
-                        <option value="">15/02/2025</option>
-                        <option value="">23/02/2025</option>
-                    </select>
-                </div>
-
-                <!-- Sélection de l'Heure -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">Heure</label>
-                    <select class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Sélectionner une date</option>
-                        <option value="">12H30</option>
-                        <option value="">15h45</option>
-                        <option value="">10h00</option>
-                    </select>
-                </div>
+                
         
                 <!-- Motif -->
                 <div class="md:col-span-2">
                     <label class="block text-gray-700 font-medium mb-2">Motif du rendez-vous</label>
-                    <textarea placeholder="Décrivez le motif de votre consultation..." rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <textarea name="motif" placeholder="Décrivez le motif de votre consultation..." rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
 
                 <!-- Type de rendez-vous -->
-                <div class="md:col-span-2">
+                <div class="md:col-span-2 mb-5">
                     <label class="block text-gray-700 font-medium mb-2">Type de rendez-vous</label>
                     <div class="flex items-center gap-4">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="type" value="Teleconsultation" class="accent-blue-500">
+                            <input type="radio" name="type" value="0" class="accent-blue-500">
                             <span> Téléconsultation </span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="type" value="Sur site" class="accent-blue-500">
+                            <input type="radio" name="type" value="1" class="accent-blue-500">
                             <span> Sur site </span>
                         </label>
                     </div>
@@ -101,6 +81,95 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const specialisteSelect = document.getElementById('specialiste-select');
+            const dateSelect = document.getElementById('date-select');
+            const heureSelect = document.getElementById('heure-select');
+        
+            // Écouteur d'événement pour le changement de spécialiste
+            specialisteSelect.addEventListener('change', function () {
+                let specialisteId = this.value;
+                resetSelect(dateSelect, "Sélectionner une date");
+                resetSelect(heureSelect, "Sélectionner une heure");
+        
+                if (specialisteId) {
+                    fetchDisponibilites(specialisteId);
+                }
+            });
+        
+            // Écouteur d'événement pour le changement de date
+            dateSelect.addEventListener('change', function () {
+                let selectedDate = this.value;
+                let specialisteId = specialisteSelect.value;
+        
+                resetSelect(heureSelect, "Sélectionner une heure");
+        
+                if (specialisteId && selectedDate) {
+                    fetchHeuresDisponibles(specialisteId, selectedDate);
+                }
+            });
+        
+            // Fonction pour réinitialiser un <select>
+            function resetSelect(selectElement, defaultText) {
+                selectElement.innerHTML = `<option value="">${defaultText}</option>`;
+            }
+            
+            // Fonction pour formater la date
+            function formatDate(dateStr) {
+                let date = new Date(dateStr);
+                return date.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+            }
+            
+            // Fonction pour formater les heures
+            function formatTimeRange(startTime, endTime) {
+                let [startHours, startMinutes] = startTime.split(':');
+                let [endHours, endMinutes] = endTime.split(':');
+                return `${startHours}h${startMinutes} - ${endHours}h${endMinutes}`;
+            }
+        
+            // Fonction pour récupérer les disponibilités d'un spécialiste
+            function fetchDisponibilites(specialisteId) {
+                fetch(`/get-disponibilites/${specialisteId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let dates = new Set();
+        
+                        data.forEach(dispo => {
+                            dates.add(dispo.date);
+                        });
+        
+                        dates.forEach(date => {
+                            let option = document.createElement('option');
+                            option.value = date;
+                            option.textContent = formatDate(date);
+                            dateSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Erreur lors du chargement des disponibilités:", error));
+            }
+        
+            // Fonction pour récupérer les heures disponibles pour une date donnée
+            function fetchHeuresDisponibles(specialisteId, selectedDate) {
+                fetch(`/get-disponibilites/${specialisteId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(dispo => {
+                            if (dispo.date === selectedDate) {
+                                let option = document.createElement('option');
+                                option.value = dispo.heure_debut+'-'+dispo.heure_fin;
+                                option.textContent = formatTimeRange(dispo.heure_debut, dispo.heure_fin);
+                                heureSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => console.error("Erreur lors du chargement des heures disponibles:", error));
+            }
+        });
+        </script>
+        
     
     
 

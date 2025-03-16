@@ -5,6 +5,7 @@ urlpatterns = [
     path('',views.indexAccueil,name="accueil"),
     path('detail_consultation/<int:id>/',views.consultationDetail,name="detail_consultation"),
     path('detail_rendezvous/<int:id>/',views.rendezVousDetail,name="detail_rendezvous"),
+    path('search/', views.search, name='search'),
     
     # route patient
     path('dashboard/patient',views.dashboardPatient,name="dashboardpatient"),

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.core.mail import send_mail
+from campay.sdk import Client as campayClient # pour le mode de paiement
 
 
 def indexAccueil(request):
@@ -52,12 +54,76 @@ def rendezVousDetail(request,id):
     }
     return render(request,'detailRendezvous.html',context)
 
+def search(request):
+    query = request.GET.get('q', '').strip()  # Récupère le terme de recherche
+
+    if query:
+        specialites = Specialite.objects.filter(
+            Q(titre__icontains=query)
+        ).distinct()  # Rechercher par spécialité
+        
+        medecins = CustomUser.objects.filter( 
+            Q(name__icontains=query) & 
+            Q(role_id=1)
+        ).distinct()  # Rechercher par nom specialiste
+        
+        print(len(medecins),'taille de la recherche')
+        
+        specialistes = []
+        
+        if len(specialites) != 0:
+            for specialite in specialites:
+                spe = Specialite_User.objects.filter(specialite_id=specialite.id)
+            
+                print(spe,'ok')
+            
+                for medecin in spe:
+                    specialistes.append(medecin)
+                    
+        else:
+            print('in else')
+            for specialite in medecins:
+                spe = Specialite_User.objects.filter(specialiste_id=specialite.id)
+            
+                print(spe,'ok')
+            
+                for medecin in spe:
+                    specialistes.append(medecin)
+        
+        print(specialistes)
+        context = {
+            'specialistes':specialistes
+        }
+        
+        return render(request, 'patient/index.html',context)
+
+    else:
+        medecins = Specialite_User.objects.all()  # Si aucune recherche, afficher tous les médecins
+        specialites = Specialite.objects.all()
+        
+    
+        context = {
+            'specialistes': medecins, 
+            'specialites':specialites,
+            'query': query
+        }
+
+        return render(request, 'patient/index.html',context)
+
 # Function patient
 
 @login_required
 def dashboardPatient(request):
     print(request.user)
-    return render(request,'patient/index.html')
+    specialistes = Specialite_User.objects.all()
+    specialites = Specialite.objects.all()
+    print(specialistes)
+    
+    context = {
+        'specialistes':specialistes,
+        'specialites':specialites
+    }
+    return render(request,'patient/index.html',context)
 
 @login_required  
 def ajoutPrendreRendezVous(request):
@@ -90,6 +156,28 @@ def ajoutPrendreRendezVous(request):
         print(planning)
         planning.status = 1
         planning.save()
+        
+        specialisteName = CustomUser.objects.get(id=specialiste)
+        message = f"""
+        Bonjour {request.user.name},
+        
+        Votre rendez-vous avec le spécialiste a bien été confirmé.
+        Motif: {motif}
+        
+        📅 Date : {date}
+        ⏰ Heure : {heure}
+        🏥 Spécialiste : Dr. {specialisteName.name}
+        
+        Merci de votre confiance !
+        """
+        
+        send_mail(
+            'Confirmation de rendez-vous', # subject
+            message, #message
+            'fokouongsirus11@gmail.com', # expediteur
+            ['tfoarnold@gmail.com'] # desitinataire
+            
+        )
         return redirect('store')
        
         
@@ -201,15 +289,52 @@ def delete(request,id,table):
         planning = Planning.objects.get(id=id)
         if planning.status == 1:
             raison = request.GET.get('raison', '')
+            
+            message = f"""
+            Bonjour {request.user.name},
+        
+            Le crenau que vous avez reservez date: {planning.date}, heure: {planning.heure_debut} - {planning.heure_fin}  a été annuler.
+            Pour la raison suivante: {raison}
+            
+        
+            Merci de votre confiance !
+            """
+        
+            send_mail(
+            'Annulation du planning', # subject
+            message, #message
+            'fokouongsirus11@gmail.com', # expediteur
+            ['tfoarnold@gmail.com'] # desitinataire
+            
+            )
             print(planning,raison)
+            planning.delete()
+            
         else:
             planning.delete()
         return redirect('planning')
     
     elif table == 'rendezvous':
         rendezvous = RendezVous.objects.get(id=id)
-        if rendezvous.status == 1:
+        if rendezvous.status == 0:
             raison = request.GET.get('raison', '')
+            message = f"""
+            Bonjour,
+        
+            Le rendez-vous ayant comme Motif: {rendezvous.motif} a été annuler.
+            Pour la raison suivante: {raison}
+            
+        
+            Merci de votre confiance !
+            """
+        
+            send_mail(
+            'Annulation de rendez-vous', # subject
+            message, #message
+            'fokouongsirus11@gmail.com', # expediteur
+            ['tfoarnold@gmail.com'] # desitinataire
+            
+            )
             print(rendezvous,raison)
             rendezvous.delete()
         else:
@@ -306,4 +431,25 @@ def deconnexion(request):
     return redirect('connexion')
 # end function authentification  
   
+
+# function de paiement
+def initPaiement(request):
+    from campay.sdk import Client as CamPayClient
+
+    campay = CamPayClient({
+        "app_username" : "uJ_cD0nMLoowI3IzKij-dBovM4TK5kz_wd2DHRd1O0YXXAyrCU5MzF7BtMaUDMwRtJwpDybDddRpBdtZOE4Hmg",
+        "app_password" : "6VnkEbim9P37fI1eGhbWyoFCRnys1ntOdbd9KHwNvRtnxZRccvBGtX3ba2kWy0AmrTlXU7uTsX2fcEslI4XbaA",
+        "environment" : "DEV" #use "DEV" for demo mode or "PROD" for live mode
+    })
+    
+    collect = campay.collect({
+        "amount": "5", #The amount you want to collect
+        "currency": "XAF",
+        "from": "2376xxxxxxxx", #Phone number to request amount from. Must include country code
+        "description": "some description",
+        "external_reference": "", #Reference from the system initiating the transaction.
+      })
+
+    print(collect)
+    #{"reference": "bcedde9b-62a7-4421-96ac-2e6179552a1a", "external_reference":"12345678",
 

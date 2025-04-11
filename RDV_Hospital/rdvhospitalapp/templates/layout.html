@@ -10,7 +10,7 @@
 <body class="bg-gray-100">
     <!-- Header -->
     <div class="flex">
-        <div id="sidebar" class="bg-blue-500 h-screen p-4 pt-8 w-1/6 fixed z-10 ">
+        <div id="sidebar" class="bg-blue-500 h-screen p-2 pt-8 w-1/6 fixed z-10 ">
             <img src="{% static 'images/icons8-gauche-50.png' %}" alt="" id="pointer" class="bg-white w-8 h-8 rounded-full absolute -right-3 top-9 border border-blue-500 cursor-pointer">
             <!-- <p id="sidebarText">RDV Hospital</p> -->
             <div class="flex items-center mb-5">
@@ -22,30 +22,58 @@
             <!-- Navigation -->
             <nav class="flex-grow">
                 <ul class="space-y-6">
+                    {% if user.is_authenticated and user.role.titre == 'specialiste' %}
                     <li>
-                        <a href="/dashboard" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                        <a href="{% url "dashboardspecialiste" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
                             <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
                             <span class="sidebarText">Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/consultation" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
-                            <img src="{% static 'images/icons8-calendrier-50.png' %}" alt="" class="w-7 h-7 mr-2">
+                        <a href="{% url "rendezVousSpecialiste" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-rendez-vous-50.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Rendez-Vous</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "planning" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-semaine-de-la-chronologie-80.png' %}" alt="" class="w-7 h-7 mr-2">
+                            <span class="sidebarText">Planning</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "consultationspecialaite" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-consultation-48.png' %}" alt="" class="w-7 h-7 mr-2">
+                            <span class="sidebarText">Consultation</span>
+                        </a>
+                    </li>
+                    
+                    {% elif user.is_authenticated and user.role.titre == 'patient' %}
+                    <li>
+                        <a href="{% url "dashboardpatient" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "rendezVousPatient" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-rendez-vous-50.png' %}" alt="" class="w-7 h-7 mr-2">
                             <span class="sidebarText">Rendez-vous</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
-                            <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
-                            <span class="sidebarText">Services</span>
+                        <a href="{% url "consultaion" %}" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
+                            <img src="{% static 'images/icons8-consultation-48.png' %}" alt="" class="w-5 h-5 mr-2">
+                            <span class="sidebarText">Consultation</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center text-white py-2 hover:bg-blue-600 rounded">
+                        <a href="#" class="flex items-center text-white py-2 px-4 hover:bg-blue-600 rounded">
                             <img src="{% static 'images/icons8-page-accueil-50.png' %}" alt="" class="w-5 h-5 mr-2">
                             <span class="sidebarText">Contact</span>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </nav>
             
@@ -58,7 +86,11 @@
             <div id="topBar" class="fixed top-0 left-1/6 bg-blue-500 text-white p-4 w-5/6 h-16 flex justify-between items-center">
                 <h2 class="text-lg font-bold">Tableau de bord</h2>
                 <div class="flex gap-5">
+                    {% if user.is_authenticated %}
+                    <a href="{% url "deconnexion" %}" class="bg-white text-blue-600 px-4 py-2 rounded">Se deconnecter</a>
+                    {% else %}
                     <a href="/connexion" class="bg-white text-blue-600 px-4 py-2 rounded">Se connecter</a>
+                    {% endif %}
                     <a href="/profil"> 
                         <div class="border border-blue-500 rounded-full w-10 h-10 bg-cover" style="background-image: url('{% static 'images/add_2444606.png' %}');">
                         </div> 

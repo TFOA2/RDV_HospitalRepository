@@ -1,12 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
-</head>
-<body>
-    <h1>Dashboard professionnel sante</h1>
-</body>
-</html>
+{% extends "layout.html" %}
+{% load static %}
+    {% block content %}
+
+    <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 mb-5">
+        <h1 class="text-2xl font-bold text-gray-700 mb-4 capitalize">Bienvenue Dr {{user.name}}</h1>
+        <p>Votre prochain rendez-vous est prevu pour: <span class="font-bold">Mardi 25/02/2025 de 15h a 18h</span> </p>
+    </div>
+
+    
+    <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6">
+        <div class="flex gap-9">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Planning du Professionnel</h2>
+        </div>
+        
+
+        <table class="w-full border-collapse border border-gray-200">
+            <thead>
+                <tr class="bg-blue-500 text-white">
+                    <th class="py-2 px-4">Jour</th>
+                    <th class="py-2 px-4">Heure</th>
+                    <th class="py-2 px-4">Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for planning in plannings %}
+                <tr class="cursor-pointer hover:bg-gray-100 border-b transition text-center" onclick="alert('Disponibilité sélectionnée !')">
+                    <td class="py-2 px-4">{{planning.date}}</td>
+                    <td class="py-2 px-4">{{planning.heure_debut}} - {{planning.heure_fin}}</td>
+                    <td class="py-2 px-4">
+                        <span class="{% if planning.status == 0 %} ' bg-green-200 text-green-700 ' {% else%} ' bg-red-200 text-red-700 '{% endif %} px-3 py-1 rounded-full text-sm"> {% if planning.status == 1 %} Occupé {% else%} Libre {% endif %}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

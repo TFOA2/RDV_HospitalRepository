@@ -4,7 +4,7 @@
 {% block content %}
 
     <section class="py-10 px-6 bg-blue-500 text-white"> 
-        <h2 class="ps-5 border-l-4 border-white text-lg font-semibold"> Urgence</h2>
+        <h2 class="ps-5 border-l-4 border-white text-lg font-semibold"> Profil</h2>
 
         <p class="mt-4 text-3xl font-bold">Si vous ou un proche êtes en situation d’urgence, contactez immédiatement notre service d'urgence .</p>
         <a href="/prendre_rendez-vous"><button class="mt-6 bg-white text-blue-600 px-6 py-3 rounded font-bold hover:bg-gray-200 transition">Prendre un rendez-vous</button></a>
@@ -17,8 +17,8 @@
                 <!-- <img src="{% static 'images/con' %}" alt=""> -->
             </div>
             <div>
-                <h1 class=" text-2xl font-bold mb-2">Nom: <span class="text-blue-500 "> TCHINDA Arnold </span> </h1>
-                <h1 class=" text-lg ">Email: <span class="text-blue-500 "> arnold@gmail.com </span> </h1>
+                <h1 class=" text-2xl font-bold mb-2">Nom: <span class="text-blue-500 ">{{user.name}}</span> </h1>
+                <h1 class=" text-lg ">Email: <span class="text-blue-500 "> {{user.email}} </span> </h1>
             </div>
         </div>
     </div>
@@ -28,22 +28,22 @@
             <div class="grid grid-cols-2 gap-10">
                 <div >
                     <label for="" class="text-gray-700 font-medium"> Nom </label> <br>
-                    <input type="text" value="Tchinda Arnold" id="name" name="name" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" value="{{user.name}}" id="name" name="name" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <div >
                     <label for="" class="text-gray-700 font-medium"> Email </label> <br>
-                    <input type="email" id="email" name="email"value="arnold@gmail.com" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="email" id="email" name="email"value="{{user.email}}" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <div >
                     <label for="" class="text-gray-700 font-medium"> Numero </label> <br>
-                    <input type="number" id="phone" name="phone" value="649032987" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="number" id="phone" name="phone" value="{{user.phone}}" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <div >
                     <label for="" class="text-gray-700 font-medium"> Mot de passe </label> <br>
-                    <input type="password" value="arnold" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="password" value="{{user.password}}" class="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <div>

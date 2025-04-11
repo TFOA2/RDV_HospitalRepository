@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-v2_1f95z_1_th_*s9s$20yxk^gf@)2v3fssoq78idtng6(xiv6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,7 +81,15 @@ DATABASES = {
     }
 }
 
-# AUTH_USER_MODEL = 'rdvhospitalapp.CustomUser'  
+AUTH_USER_MODEL = 'rdvhospitalapp.CustomUser'  
+
+# mail
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  # SMTP de Gmail (ou autre fournisseur)
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "fokouongsirus11@gmail.com"
+EMAIL_HOST_PASSWORD = "kggakecegxcocyho"
 
 
 # Password validation

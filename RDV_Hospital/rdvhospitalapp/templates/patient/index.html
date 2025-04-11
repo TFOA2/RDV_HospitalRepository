@@ -57,7 +57,7 @@
                     
                             <!-- Boutons -->
                             <div class="mt-4 flex space-x-4">
-                                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">Prendre RDV</a>
+                                <a href="{% url 'store' %}?specialiste_id={{ specialiste.specialiste_id }}&specialiste_name={{ specialiste.specialiste.name }}&specialiste_titre={{ specialiste.specialite.titre }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">Prendre RDV</a>
                                 <a href="#" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-400 transition">Voir Profil</a>
                             </div>
                         </div>

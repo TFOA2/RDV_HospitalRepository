@@ -24,7 +24,14 @@
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Specialiste</label>
                     <select name="specialiste" id="specialiste-select" class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Choisir un specialiste</option>
+                        {% if selected_specialiste_id %}
+                            <option value="{{ selected_specialiste_id }}" selected>
+                                Dr. {{ selected_specialiste_name }}: {{ selected_specialiste_titre }}
+                            </option>
+                        {% else %}
+                            <option value="">Choisir un spécialiste</option>
+                        {% endif %}
+
                         {% for specialiste in specialistes %}
                         <option value="{{specialiste.specialiste_id}}"> Dr. {{specialiste.specialiste.name}}: {{specialiste.specialite.titre}} </option>
                         {% endfor %}
@@ -88,6 +95,10 @@
             const specialisteSelect = document.getElementById('specialiste-select');
             const dateSelect = document.getElementById('date-select');
             const heureSelect = document.getElementById('heure-select');
+
+            if (specialisteSelect.value) {
+                fetchDisponibilites(specialisteSelect.value);
+            }
         
             // Écouteur d'événement pour le changement de spécialiste
             specialisteSelect.addEventListener('change', function () {

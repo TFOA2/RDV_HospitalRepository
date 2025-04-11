@@ -22,6 +22,7 @@
                     <th class="p-4 text-left">Date</th>
                     <th class="p-4 text-left">Heure</th>
                     <th class="p-4 text-left">Motif</th>
+                    <th class="p-4 text-center">Type</th>
                     <th class="p-4 text-left">Statut</th>
                     <th class="p-4 text-center">Actions</th>
                 </tr>
@@ -34,9 +35,14 @@
                     <td class="p-4">{{ rdv.date }}</td>
                     <td class="p-4">{{ rdv.heureDebut }} - {{rdv.heureFin}}</td>
                     <td class="p-4">{{ rdv.motif|truncatewords:5 }}</td>
+                    <td class="p-4">{% if rdv.type == 0 %}
+                        Téléconsultation
+                    {% else %}
+                        Sur site
+                    {% endif %}</td>
                     <td class="p-4">
                         {% if rdv.status == 0 %}
-                            <span class="px-2 py-1 bg-yellow-200 text-yellow-700 rounded-full text-sm">En attente</span>
+                            <span class="px-2 py-1 bg-yellow-200 text-yellow-700 rounded-full text-sm">Attente</span>
                         {% elif rdv.status == 1 %}
                             <span class="px-2 py-1 bg-green-200 text-green-700 rounded-full text-sm">Terminé</span>
                         {% else %}
@@ -44,6 +50,7 @@
                         {% endif %}
                     </td>
                     <td class="p-4 text-center">
+                        {% if rdv.type == 0 and rdv.status == 0 %}<a href="{% url "join_room" %}"><button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm cursor-pointer">Rejoindre</button></a>{% endif %} 
                         <a href="{% url "detail_rendezvous" rdv.id %}"><button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm cursor-pointer">Voir</button></a>
                        <button onclick="toggleModaldelete({{rdv.id}})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm ml-2 cursor-pointer">Annuler</button>
                     </td>

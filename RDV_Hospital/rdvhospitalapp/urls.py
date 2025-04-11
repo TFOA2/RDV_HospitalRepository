@@ -14,6 +14,7 @@ urlpatterns = [
     path('rendez-vous/',views.rendezVous,name="rendezVousPatient"),
     path('urgence/',views.urgence),
     path('profil/',views.profil),
+    path('join/',views.join_room, name='join_room'),
     # end route patient
     
     # route professionnel sante
@@ -23,6 +24,7 @@ urlpatterns = [
     path("get-disponibilites/<int:specialiste_id>/", views.get_disponibilites, name="get_disponibilites"),
     path('rendez-vous specialiste/',views.rendezVousSpecialiste,name="rendezVousSpecialiste"),
     path('consultation specialiste/',views.consultationSpecialiste,name="consultationspecialaite"),
+    path('meeting/', views.videocall, name='meeting'),
     # end route professionnel sante
     
     # route authentification

@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.core.mail import send_mail
 from campay.sdk import Client as campayClient # pour le mode de paiement
+import random
 
 
 def indexAccueil(request):
@@ -109,6 +110,8 @@ def search(request):
         }
 
         return render(request, 'patient/index.html',context)
+    
+    
 
 # Function patient
 
@@ -127,9 +130,16 @@ def dashboardPatient(request):
 
 @login_required  
 def ajoutPrendreRendezVous(request):
-    specialistes = Specialite_User.objects.all()    
+    specialistes = Specialite_User.objects.all()   
+    
+    specialiste_id = request.GET.get('specialiste_id', '')
+    specialiste_name = request.GET.get('specialiste_name', '')
+    specialiste_titre = request.GET.get('specialiste_titre', '')
     context = {
-        'specialistes':specialistes
+        'specialistes':specialistes,
+        'selected_specialiste_id': specialiste_id,
+        'selected_specialiste_name': specialiste_name,
+        'selected_specialiste_titre': specialiste_titre,
     }
     
     if request.method == 'POST':
@@ -214,6 +224,13 @@ def urgence(request):
 def profil(request):
     
     return render(request,"patient/profil.html")
+
+@login_required
+def join_room(request):
+    if request.method == 'POST':
+        roomID = request.POST['roomID']
+        return redirect("/meeting?roomID=" + roomID)
+    return render(request, 'patient/joinRoom.html')
 # end function patient
 
 
@@ -345,7 +362,35 @@ def delete(request,id,table):
         if request.user.role.titre == 'patient':
             return redirect('rendezVousPatient')
     
-            
+
+
+@login_required
+def videocall(request):
+    room_id = str(random.randint(1000, 9999))
+    
+    message = f"""
+    Bonjour,
+    
+    Votre rendez-vous en ligne est confirmé !
+
+    📌 Identifiant de la consultation en ligne : {room_id}
+
+    Merci de votre confiance !
+    """
+        
+    send_mail(
+        'Teleconsultation', # subject
+        message, #message
+        'fokouongsirus11@gmail.com', # expediteur
+        ['tfoarnold@gmail.com'] # desitinataire
+        
+    )
+    context={
+        'name':request.user.name,
+        'roomId':room_id,
+    }
+    return render(request,'proSante/videocall.html',context)
+   
 # end function professionnel sante
 
 # Function authentification
